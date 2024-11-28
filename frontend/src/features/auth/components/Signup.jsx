@@ -75,7 +75,7 @@ export const Signup = () => {
               <Stack flexDirection={'row'} justifyContent={'center'} alignItems={'center'}>
                   <Stack rowGap={'.4rem'}>
                     <Typography variant='h2' sx={{wordBreak:"break-word"}} fontWeight={600}>GLAM_GAINS</Typography>
-                    <Typography alignSelf={'flex-end'} color={'GrayText'} variant='body2'>-Where Glamor Meets Beauty</Typography>
+                    <Typography alignSelf={'flex-end'} color={'GrayText'} variant='body2'>-Everyday Beauty</Typography>
                   </Stack>
 
               </Stack>

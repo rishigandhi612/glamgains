@@ -71,7 +71,7 @@ export const ProductCard = ({id,title,price,thumbnail,brand,stockQuantity,handle
             </Stack>
 
             <Stack sx={{flexDirection:"row",justifyContent:"space-between",alignItems:"center"}}>
-                <Typography>${price}</Typography>
+                <Typography>₹{price}</Typography>
                 {
                     !isWishlistCard? isProductAlreadyInCart?
                     ''

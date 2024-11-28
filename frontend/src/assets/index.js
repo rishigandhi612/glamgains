@@ -7,6 +7,7 @@ import notFoundPageAnimation from './animations/notFoundPage.json'
 import banner1 from './images/banner1.jpg'
 import googlePlayPng from './images/googlePlay.png'
 import appStorePng from './images/appStore.png'
+import Logopng from './images/logo_rb.png'
 import  QRCodePng from './images/QRCode.png'
 import facebookPng from './images/facebook.png'
 import twitterPng from './images/twitter.png'
@@ -27,6 +28,7 @@ export {
     banner1,
     googlePlayPng,
     appStorePng,
+    Logopng,
     QRCodePng,
     facebookPng,
     twitterPng,

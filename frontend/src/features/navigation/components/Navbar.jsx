@@ -7,6 +7,7 @@ import Menu from "@mui/material/Menu";
 import Avatar from "@mui/material/Avatar";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
+import { Logopng } from "../../../assets";
 import { Link, useNavigate } from "react-router-dom";
 import {
   Badge,
@@ -80,7 +81,7 @@ export const Navbar = ({ isProductList = false }) => {
       <Toolbar
         sx={{
           p: 1,
-          height: "4rem",
+          height: "5rem",
           display: "flex",
           justifyContent: "space-between",
           width:"100%",
@@ -94,16 +95,9 @@ export const Navbar = ({ isProductList = false }) => {
           href="/"
           sx={{
             mr: 2,
-            display: { xs: "none", md: "flex" },
-            fontWeight: 700,
-            letterSpacing: ".3rem",
-            color: "inherit",
-            textDecoration: "none",
           }}
         >
-                  <img src="frontend/public/assets/Logo.png" sizes="10x16"/>
-          GLAM_GAINS
-          
+                  <img src={Logopng}  style={{ maxWidth: "40%", height: "auto" }} />
         </Typography>
         <Stack
           flexDirection={"row"}
