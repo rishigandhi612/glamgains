@@ -1,50 +1,82 @@
-import SwipeableViews from 'react-swipeable-views';
-import { autoPlay } from 'react-swipeable-views-utils';
-import MobileStepper from '@mui/material/MobileStepper';
-import { Box, useTheme } from '@mui/material';
-import { useState } from 'react';
+import React, { useState, useEffect } from "react";
+import Slider from "react-slick";
+import { Box } from "@mui/material";
 
-const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
-export const ProductBanner = ({images}) => {
+const PrevArrow = ({ onClick }) => (
+  <div
+    style={{
+      position: "absolute",
+      top: "50%",
+      left: "20px",
+      zIndex: 1,
+      cursor: "pointer",
+    }}
+    onClick={onClick}
+  >
+    <ArrowBackIcon style={{ color: "#fff" }} />
+  </div>
+);
 
-    const theme=useTheme()
+const NextArrow = ({ onClick }) => (
+  <div
+    style={{
+      position: "absolute",
+      top: "50%",
+      right: "20px",
+      zIndex: 1,
+      cursor: "pointer",
+    }}
+    onClick={onClick}
+  >
+    <ArrowForwardIcon style={{ color: "#fff" }} />
+  </div>
+);
 
-    const [activeStep, setActiveStep] = useState(0);
-    const maxSteps = images.length;
+export const ProductBanner = ({ images }) => {
+  console.log("Rendering images in ProductBanner component:", images);
 
-    const handleNext = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    };
+  const [activeStep, setActiveStep] = useState(0);
+  const maxSteps = images.length;
 
-    const handleBack = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep - 1);
-    };
+  const settings = {
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    afterChange: (index) => setActiveStep(index),
+    autoplay: true,
+    autoplaySpeed: 3000,   // Adjust speed if needed (in ms)
+    pauseOnHover: true,     // Pause autoplay on hover
+    arrows: true,           // Enable arrows
+    prevArrow: <PrevArrow />,  // Use custom left arrow
+    nextArrow: <NextArrow />,  // Use custom right arrow
+    dots: true,             // Add dots for testing
+  };
 
-    const handleStepChange = (step) => {
-        setActiveStep(step);
-    };
+  // Check if images are being received properly in each render
+  useEffect(() => {
+    console.log("Images received in ProductBanner:", images);
+  }, [images]);
 
   return (
-    <>
-    <AutoPlaySwipeableViews style={{overflow:"hidden"}} width={'100%'} height={'100%'} axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'} index={activeStep} onChangeIndex={handleStepChange} enableMouseEvents >
-        {
-        images.map((image,index) => (
-        <div key={index} style={{width:"100%",height:'100%'}}>
-            {
-            Math.abs(activeStep - index) <= 2 
-                ?
-                <Box component="img" sx={{width:'100%',objectFit:"contain"}} src={image} alt={'Banner Image'} />
-                :
-                    null
-            }
+    <Slider {...settings} style={{ width: "100%", height: "100%" }}>
+      {images?.map((image, index) => (
+        <div key={index} style={{ width: "100%", height: "100%" }}>
+          <Box
+            component="img"
+            sx={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+            }}
+            src={image}
+            alt={`Banner Image ${index}`}
+          />
         </div>
-        ))
-        }
-    </AutoPlaySwipeableViews>
-    <div style={{alignSelf:'center'}}>
-        <MobileStepper steps={maxSteps} position="static" activeStep={activeStep}/>
-    </div>
-    </>
-  )
-}
+      ))}
+    </Slider>
+  );
+};

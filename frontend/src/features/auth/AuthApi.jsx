@@ -1,66 +1,38 @@
-import {axiosi} from '../../config/axios'
+import { axiosi } from "../../config/axios";
 
-export const signup=async(cred)=>{
-    try {
-        const res=await axiosi.post("auth/signup",cred)
-        return res.data
-    } catch (error) {
-        throw error.response.data
-    }
-}
-export const login=async(cred)=>{
-    try {
-        const res=await axiosi.post("auth/login",cred)
-        return res.data
-    } catch (error) {
-        throw error.response.data
-    }
-}
-export const verifyOtp=async(cred)=>{
-    try {
-        const res=await axiosi.post("auth/verify-otp",cred)
-        return res.data
-    } catch (error) {
-        throw error.response.data
-    }
-}
-export const resendOtp=async(cred)=>{
-    try {
-        const res=await axiosi.post("auth/resend-otp",cred)
-        return res.data
-    } catch (error) {
-        throw error.response.data
-    }
-}
-export const forgotPassword=async(cred)=>{
-    try {
-        const res=await axiosi.post("auth/forgot-password",cred)
-        return res.data
-    } catch (error) {
-        throw error.response.data
-    }
-}
-export const resetPassword=async(cred)=>{
-    try {
-        const res=await axiosi.post("auth/reset-password",cred)
-        return res.data
-    } catch (error) {
-        throw error.response.data
-    }
-}
-export const checkAuth=async(cred)=>{
-    try {
-        const res=await axiosi.get("auth/check-auth")
-        return res.data
-    } catch (error) {
-        throw error.response.data
-    }
-}
-export const logout=async()=>{
-    try {
-        const res=await axiosi.get("auth/logout")
-        return res.data
-    } catch (error) {
-        throw error.response.data
-    }
-}
+// Generic function to handle API requests
+const apiRequest = async (method, url, data = {}) => {
+  try {
+    const response = method === 'get' ? await axiosi.get(url) : await axiosi.post(url, data);
+    return response.data;
+  } catch (error) {
+    // Better error handling with fallback messages
+    const errorMessage = error.response.data.message || error.message || "An error occurred. Please try again.";
+    console.log(error.response.data)
+    throw new Error(errorMessage);
+  }
+};
+
+// Signup
+export const signup = async (cred) => apiRequest('post', "auth/signup", cred);
+
+// Login
+export const login = async (cred) => apiRequest('post', "auth/login", cred);
+
+// Verify OTP
+export const verifyOtp = async (cred) => apiRequest('post', "auth/verify-otp", cred);
+
+// Resend OTP
+export const resendOtp = async (cred) => apiRequest('post', "auth/resend-otp", cred);
+
+// Forgot Password
+export const forgotPassword = async (cred) => apiRequest('post', "auth/forgot-password", cred);
+
+// Reset Password
+export const resetPassword = async (cred) => apiRequest('post', "auth/reset-password", cred);
+
+// Check Authentication
+export const checkAuth = async () => apiRequest('get', "auth/check-auth");
+
+// Logout
+export const logout = async () => apiRequest('get', "auth/logout");
