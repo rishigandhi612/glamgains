@@ -36,12 +36,18 @@ export const Login = () => {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      email: "demo@gmail.com", // Default email value
+      password: "helloWorld@123", // Default password value
+    },
+  });
+
   const navigate = useNavigate();
   const theme = useTheme();
   const is900 = useMediaQuery(theme.breakpoints.down(900)); // Breakpoint for tablet and below
   const is480 = useMediaQuery(theme.breakpoints.down(480)); // Breakpoint for mobile (phones)
-  const is600to480 = useMediaQuery('(min-width: 480px) and (max-width: 600px)'); // Target screens between 480px and 600px
+  const is600to480 = useMediaQuery("(min-width: 480px) and (max-width: 600px)"); // Target screens between 480px and 600px
 
   // handles user redirection
   useEffect(() => {
@@ -73,7 +79,7 @@ export const Login = () => {
 
   const handleLogin = (data) => {
     const cred = { ...data };
-    delete cred.confirmPassword;
+    delete cred.confirmPassword; // Ensure there's no extra field
     dispatch(loginAsync(cred));
   };
 
@@ -198,6 +204,19 @@ export const Login = () => {
               </motion.div>
             </MotionConfig>
           </Stack>
+        </Stack>
+
+        {/* Display Admin credentials below the login form */}
+        <Stack mt={4} spacing={1} alignItems="center">
+          <Typography variant="body2" color="textSecondary">
+            <strong>Admin Credentials:</strong>
+          </Typography>
+          <Typography variant="body2" color="textSecondary">
+            Email: <strong>rishigandhi021@gmail.com</strong>
+          </Typography>
+          <Typography variant="body2" color="textSecondary">
+            Password: <strong>Rishi@123</strong>
+          </Typography>
         </Stack>
 
         {/* Display the animation at the bottom for mobile and side-by-side for 480px-600px */}

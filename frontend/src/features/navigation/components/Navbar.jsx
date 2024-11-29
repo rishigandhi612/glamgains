@@ -11,8 +11,8 @@ import { Logopng } from "../../../assets";
 import { Link, useNavigate } from "react-router-dom";
 import {
   Badge,
-  Button,
   Stack,
+  Chip,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
@@ -30,7 +30,6 @@ import {
 } from "../../products/ProductSlice";
 
 export const Navbar = ({ isProductList = false }) => {
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const userInfo = useSelector(selectUserInfo);
   const cartItems = useSelector(selectCartItems);
@@ -38,7 +37,7 @@ export const Navbar = ({ isProductList = false }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const theme = useTheme();
-  const is480 = useMediaQuery(theme.breakpoints.down(480));
+  const is480 = useMediaQuery(theme.breakpoints.down(480)); // Check if the screen size is small (mobile)
 
   const wishlistItems = useSelector(selectWishlistItems);
   const isProductFilterOpen = useSelector(selectProductIsFilterOpen);
@@ -108,6 +107,7 @@ export const Navbar = ({ isProductList = false }) => {
           justifyContent={"center"}
           columnGap={2}
         >
+          {/* User Menu for Admin or Logged-in User */}
           <Menu
             sx={{ mt: "45px" }}
             id="menu-appbar"
@@ -151,10 +151,18 @@ export const Navbar = ({ isProductList = false }) => {
               </MenuItem>
             ))}
           </Menu>
+
+          {/* Greeting Text */}
           <Typography variant="h6" fontWeight={300}>
             {userInfo?.name ? (is480 ? `${userInfo?.name.split(" ")[0]}` : `Hey👋, ${userInfo?.name}`) : "Hello!"}
           </Typography>
-          {loggedInUser.isAdmin && <Button variant="contained">Admin</Button>}
+
+          {/* Admin Chip */}
+          {loggedInUser.isAdmin && (
+            <Chip label="Admin" color="primary" size="small" sx={{ fontWeight: 'bold', textTransform: 'uppercase' }} />
+          )}
+
+          {/* Main Stack for Cart, Wishlist, and Filters */}
           <Stack
             sx={{
               flexDirection: "row",
@@ -163,7 +171,8 @@ export const Navbar = ({ isProductList = false }) => {
               justifyContent: "center",
             }}
           >
-            {cartItems?.length > 0 && (
+            {/* Cart Button (Visible only on desktop) */}
+            {cartItems?.length > 0 && !is480 && (
               <Badge badgeContent={cartItems.length} color="error">
                 <IconButton
                   onClick={() => navigate("/cart")}
@@ -174,24 +183,31 @@ export const Navbar = ({ isProductList = false }) => {
               </Badge>
             )}
 
-            {!loggedInUser?.isAdmin && (
+            {/* Wishlist Button (Visible only on desktop) */}
+            {!loggedInUser?.isAdmin && !is480 && (
               <Badge badgeContent={wishlistItems?.length} color="error">
                 <IconButton component={Link} to={"/wishlist"} aria-label="Open Wishlist">
                   <FavoriteBorderIcon />
                 </IconButton>
               </Badge>
             )}
+
+            {/* Filters Button (Visible on both mobile and desktop) */}
             {isProductList && (
               <IconButton onClick={handleToggleFilters} aria-label="Toggle Filters">
                 <TuneIcon sx={{ color: isProductFilterOpen ? "black" : "" }} />
               </IconButton>
             )}
           </Stack>
-          <Tooltip title="Open settings">
-            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-              <Avatar alt={userInfo?.name} src={userInfo?.avatar || "/default-avatar.png"} />
-            </IconButton>
-          </Tooltip>
+
+          {/* Settings Button (Visible only on desktop) */}
+          {!is480 && (
+            <Tooltip title="Open settings">
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <Avatar alt={userInfo?.name} src={userInfo?.avatar || "/default-avatar.png"} />
+              </IconButton>
+            </Tooltip>
+          )}
         </Stack>
       </Toolbar>
     </AppBar>
