@@ -219,34 +219,36 @@ export const AdminDashBoard = () => {
           columnGap={5}
         >
           <Stack alignSelf={"flex-end"} width={"12rem"}>
-          <FormControl fullWidth>
-  <InputLabel id="sort-dropdown">Sort</InputLabel>
-  <Select
-    variant="standard"
-    labelId="sort-dropdown"
-    label="Sort"
-    onChange={(e) => {
-      const selectedValue = e.target.value;
-      // Handle reset case
-      if (selectedValue === null) {
-        setSort(null); // Reset sort
-      } else {
-        setSort(selectedValue); // Set selected option
-      }
-    }}
-    value={sort}
-  >
-    <MenuItem value={null} sx={{ backgroundColor: 'text.secondary', color: 'white' }}>
-      Reset
-    </MenuItem>
-    {sortOptions.map((option) => (
-      <MenuItem key={option.sort} value={option}>
-        {option.name}
-      </MenuItem>
-    ))}
-  </Select>
-</FormControl>
-
+            <FormControl fullWidth>
+              <InputLabel id="sort-dropdown">Sort</InputLabel>
+              <Select
+                variant="standard"
+                labelId="sort-dropdown"
+                label="Sort"
+                onChange={(e) => {
+                  const selectedValue = e.target.value;
+                  // Handle reset case
+                  if (selectedValue === null) {
+                    setSort(null); // Reset sort
+                  } else {
+                    setSort(selectedValue); // Set selected option
+                  }
+                }}
+                value={sort}
+              >
+                <MenuItem
+                  value={null}
+                  sx={{ backgroundColor: "text.secondary", color: "white" }}
+                >
+                  Reset
+                </MenuItem>
+                {sortOptions.map((option) => (
+                  <MenuItem key={option.sort} value={option}>
+                    {option.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           </Stack>
         </Stack>
 

@@ -72,6 +72,7 @@ export const ProductCard = ({
   const handleImageLoad = () => {
     setIsImageLoading(false); // Image loaded, hide loading state
   };
+
   return (
     <>
       {isProductAlreadyinWishlist !== -1 ? (
@@ -97,22 +98,44 @@ export const ProductCard = ({
               ? "300px"
               : "340px"
           }
-          sx={{ cursor: "pointer" }}
+          sx={{
+            cursor: "pointer",
+            display: "flex", // Ensure the container is a flexbox to stretch items
+            flexDirection: "column", // Stack children vertically
+            height: "100%", // Allow the card to expand to the full height of the container
+            minHeight: "400px", // Ensure a minimum height for each card
+          }}
           onClick={() => navigate(`/product-details/${id}`)}
         >
           {/* Image Section */}
-          <Stack>
+          <Stack
+            sx={{
+              position: "relative",
+              height: "200px", // Set fixed height for the image section
+              overflow: "hidden",
+              flexShrink: 0, // Prevent shrinking of the image container
+            }}
+          >
             <img
               src={thumbnail || fallbackImage} // Use fallback if thumbnail is unavailable
               alt={`${title} photo`}
               width="100%"
-              height="auto"
-              style={{ objectFit: "contain" }}
+              height="100%" // Ensure image takes the full container space
+              style={{ objectFit: "cover" }} // Ensure the image covers the area, without stretching
+              onError={handleImageError}
+              onLoad={handleImageLoad}
             />
           </Stack>
 
           {/* Lower Section */}
-          <Stack flex={2} justifyContent={"flex-end"} spacing={1} rowGap={2}>
+          <Stack
+            sx={{
+              flex: 1, // Allow this section to take up remaining space
+              justifyContent: "space-between", // Ensure items are spaced out
+              rowGap: 2,
+              minHeight: "150px", // Ensure content is not squeezed
+            }}
+          >
             <Stack>
               <Stack
                 flexDirection={"row"}
@@ -203,3 +226,4 @@ export const ProductCard = ({
     </>
   );
 };
+
