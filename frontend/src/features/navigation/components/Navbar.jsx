@@ -12,7 +12,6 @@ import { Link, useNavigate } from "react-router-dom";
 import {
   Badge,
   Button,
-  Chip,
   Stack,
   useMediaQuery,
   useTheme,
@@ -52,6 +51,11 @@ export const Navbar = ({ isProductList = false }) => {
     setAnchorElUser(null);
   };
 
+  const handleLogout = () => {
+    // Logic to clear user session (e.g., remove token from localStorage or call logout API)
+    navigate("/logout");
+  };
+
   const handleToggleFilters = () => {
     dispatch(toggleFilters());
   };
@@ -66,7 +70,7 @@ export const Navbar = ({ isProductList = false }) => {
       name: loggedInUser?.isAdmin ? "Orders" : "My orders",
       to: loggedInUser?.isAdmin ? "/admin/orders" : "/orders",
     },
-    { name: "Logout", to: "/logout" },
+    { name: "Logout", to: "/logout", onClick: handleLogout },
   ];
 
   return (
@@ -84,11 +88,10 @@ export const Navbar = ({ isProductList = false }) => {
           height: "5rem",
           display: "flex",
           justifyContent: "space-between",
-          width:"100%",
+          width: "100%",
         }}
       >
-
-    <Typography
+        <Typography
           variant="h6"
           noWrap
           component="a"
@@ -97,7 +100,7 @@ export const Navbar = ({ isProductList = false }) => {
             mr: 2,
           }}
         >
-                  <img src={Logopng}  style={{ maxWidth: "40%", height: "auto" }} />
+          <img src={Logopng} alt="Logo" style={{ maxWidth: "40%", height: "auto" }} />
         </Typography>
         <Stack
           flexDirection={"row"}
@@ -135,7 +138,7 @@ export const Navbar = ({ isProductList = false }) => {
               </MenuItem>
             )}
             {settings.map((setting) => (
-              <MenuItem key={setting} onClick={handleCloseUserMenu}>
+              <MenuItem key={setting.name} onClick={setting.onClick || handleCloseUserMenu}>
                 <Typography
                   component={Link}
                   color={"text.primary"}
@@ -149,9 +152,7 @@ export const Navbar = ({ isProductList = false }) => {
             ))}
           </Menu>
           <Typography variant="h6" fontWeight={300}>
-            {is480
-              ? `${userInfo?.name.toString().split(" ")[0]}`
-              : `Hey👋, ${userInfo?.name}`}
+            {userInfo?.name ? (is480 ? `${userInfo?.name.split(" ")[0]}` : `Hey👋, ${userInfo?.name}`) : "Hello!"}
           </Typography>
           {loggedInUser.isAdmin && <Button variant="contained">Admin</Button>}
           <Stack
@@ -164,30 +165,31 @@ export const Navbar = ({ isProductList = false }) => {
           >
             {cartItems?.length > 0 && (
               <Badge badgeContent={cartItems.length} color="error">
-                <IconButton onClick={() => navigate("/cart")}>
+                <IconButton
+                  onClick={() => navigate("/cart")}
+                  aria-label="Open Cart"
+                >
                   <ShoppingCartOutlinedIcon />
                 </IconButton>
               </Badge>
             )}
 
             {!loggedInUser?.isAdmin && (
-              <Stack>
-                <Badge badgeContent={wishlistItems?.length} color="error">
-                  <IconButton component={Link} to={"/wishlist"}>
-                    <FavoriteBorderIcon />
-                  </IconButton>
-                </Badge>
-              </Stack>
+              <Badge badgeContent={wishlistItems?.length} color="error">
+                <IconButton component={Link} to={"/wishlist"} aria-label="Open Wishlist">
+                  <FavoriteBorderIcon />
+                </IconButton>
+              </Badge>
             )}
             {isProductList && (
-              <IconButton onClick={handleToggleFilters}>
+              <IconButton onClick={handleToggleFilters} aria-label="Toggle Filters">
                 <TuneIcon sx={{ color: isProductFilterOpen ? "black" : "" }} />
               </IconButton>
             )}
           </Stack>
           <Tooltip title="Open settings">
             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-              <Avatar alt={userInfo?.name} src="null" />
+              <Avatar alt={userInfo?.name} src={userInfo?.avatar || "/default-avatar.png"} />
             </IconButton>
           </Tooltip>
         </Stack>

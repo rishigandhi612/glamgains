@@ -36,7 +36,7 @@ const NextArrow = ({ onClick }) => (
 );
 
 export const ProductBanner = ({ images }) => {
-  console.log("Rendering images in ProductBanner component:", images);
+//   console.log("Rendering images in ProductBanner component:", images);
 
   const [activeStep, setActiveStep] = useState(0);
   const maxSteps = images.length;
@@ -55,11 +55,6 @@ export const ProductBanner = ({ images }) => {
     nextArrow: <NextArrow />,  // Use custom right arrow
     dots: true,             // Add dots for testing
   };
-
-  // Check if images are being received properly in each render
-  useEffect(() => {
-    console.log("Images received in ProductBanner:", images);
-  }, [images]);
 
   return (
     <Slider {...settings} style={{ width: "100%", height: "100%" }}>

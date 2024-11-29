@@ -292,7 +292,7 @@ export const ProductDetails = () => {
                                             </Box>
                                             <Stack>
                                                 <Typography>Return Delivery</Typography>
-                                                <Typography>Free 30 Days Delivery Returns</Typography>
+                                                <Typography>Free 30 Days Returns</Typography>
                                             </Stack>
                                         </Stack>
                                     </Stack>
